@@ -37,11 +37,6 @@ modules:
     ...
 
 resources:
-  - name: solution-db          # Our persistence
-    type: com.sap.xs.hdi-container
-    parameters:
-      service: hana
-      service-plan: hdi-shared
   - name: solution-auth        # For authentication and authorization
     type: org.cloudfoundry.managed-service
     parameters:
@@ -51,6 +46,16 @@ resources:
       config:
         xsappname: solution-${org}-${space}
         tenant-mode: dedicated
+        oauth2-configuration:
+          redirect-uris:
+            - https://*~{app-api/app-uri}/**
+    requires:
+      - name: app-api
+  - name: solution-db          # Our persistence
+    type: com.sap.xs.hdi-container
+    parameters:
+      service: hana
+      service-plan: hdi-shared
 ```
 
 Here you see multiple modules and resources. The modules are later deployed as Cloud Foundry applications and the resources are created as service instances.
@@ -88,6 +93,7 @@ Notice the `--ws-pack` option: It packages dependencies during the build that ar
     ...
 ```
 
+The `shared-db/gen` folder is created while building the shared-db project in the `before-all` steps.
 
 👉 Instead of a single application, we want to deploy multiple, so we need to replace the `solution-srv` module with ones for incidents and feedback
 ```diff
@@ -338,7 +344,7 @@ solution
 
 For productive scenarios, ui apps can also be included via build steps or pushed to the html5-apps-repo.
 
-👉 Enter the destinations for each app as well as the static resources in the `xs-app.json`:
+👉 Enter the destinations for each app as well as the static resources in the `app/router/xs-app.json`:
 
 ```json
 {
@@ -376,6 +382,6 @@ For productive scenarios, ui apps can also be included via build steps or pushed
 ```
 
 
-
+With all of these changes, the application is now ready for deployment. The payoff follows in the next exercise.
 
 

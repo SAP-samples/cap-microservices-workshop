@@ -6,6 +6,7 @@
 👉 Initialize a new CAP project
 ```sh
 cds init feedback
+npm i # forces npm to recognize the workspace
 ```
 
 The new project is located parallel to the incidents app. As the new folder is inside `solution`, it is also included as npm workspace due to our `"workspaces": ["*"]` configuration.
@@ -109,7 +110,7 @@ We now construct an easy way to start our whole solution together.
 ```cds
 using from './srv/admin-service';
 using from './srv/processor-service';
-using from './app/services.cds'
+using from './app/services.cds';
 ```
 
 The index file describes what is included when you import the containing folder or npm package.

@@ -9,6 +9,7 @@ Let's now also create a module for deploying the combined database artifacts to 
 
 ```sh
 cds init shared-db --add hana
+npm i # forces npm to recognize the workspace
 ```
 
 Again, this is located parallel to our other projects and registered as npm workspace due to our wildcard configuration.
