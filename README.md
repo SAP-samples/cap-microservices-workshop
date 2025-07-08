@@ -1,41 +1,40 @@
-# SAP-samples/repository-template
-This default template for SAP Samples repositories includes files for README, LICENSE, and REUSE.toml. All repositories on github.com/SAP-samples will be created based on this template.
+# CAP microservices workshop
 
-# Containing Files
+The content of this repository is for use in a [re>≡CAP 2025](https://recap-conf.dev/) hands-on workshop:
 
-1. The LICENSE file:
-In most cases, the license for SAP sample projects is `Apache 2.0`.
+Title: Develop and Deploy CAP microservices with shared database
 
-2. The REUSE.toml file: 
-The [Reuse Tool](https://reuse.software/) must be used for your samples project. You can find the REUSE.toml in the project initial. Please replace the parts inside the single angle quotation marks < > by the specific information for your repository.
+## Theory
 
-3. The README.md file (this file):
-Please edit this file as it is the primary description file for your project. You can find some placeholder titles for sections below.
+* Microservices and avoiding the [microservice mania](https://cap.cloud.sap/docs/about/bad-practices#microservices-mania)
+* When, how and where to cut your app into (micro)services -> [late-cut microservices](https://cap.cloud.sap/docs/guides/deployment/microservices#late-cut-microservices)
 
-# [Title]
-<!-- Please include descriptive title -->
+## Exercises
 
-<!--- Register repository https://api.reuse.software/register, then add REUSE badge:
-[![REUSE status](https://api.reuse.software/badge/github.com/SAP-samples/REPO-NAME)](https://api.reuse.software/info/github.com/SAP-samples/REPO-NAME)
--->
+Work through each of the following exercises one at a time, each of which cover one or more topics that are relevant for developing microservices (and are shown in brackets following the exercise titles). When reading through the exercises, actions for you to take, things you have to do yourself, are indicated with the 👉 symbol.
 
-## Description
-<!-- Please include SEO-friendly description -->
+1. [Setting up a solution monorepo](exercises/01-initialize-project/)
+2. [Add a second app](exercises/02-add-second-service/)
+3. [Add a `shared-db` module](exercises/03-shared-db/)
+4. [Deployment configurations](exercises/04-deployment-configuration/)
+5. [Deployment & Test](exercises/05-deploy/)
 
-## Requirements
+## Survey
 
-## Download and Installation
+This CodeJam is being presented during Code Connect week where there's [a re>≡CAP 2025 survey for CAP developers](https://url.sap/6rouc7) - please take a moment to complete it if you can. Thank you! 
 
-## Known Issues
-<!-- You may simply state "No known issues. -->
+
+## Further reading
+
+- [Late-cut microservices](https://cap.cloud.sap/docs/guides/deployment/microservices#late-cut-microservices)
+- [CAP Microservices Guide](https://cap.cloud.sap/docs/guides/deployment/microservices)
+- [cloud-cap-samples](https://github.com/SAP-samples/cloud-cap-samples) - a finished and deployable sample of microservices
 
 ## How to obtain support
-[Create an issue](https://github.com/SAP-samples/<repository-name>/issues) in this repository if you find a bug or have questions about the content.
- 
-For additional support, [ask a question in SAP Community](https://answers.sap.com/questions/ask.html).
 
-## Contributing
-If you wish to contribute code, offer fixes or improvements, please send a pull request. Due to legal reasons, contributors will be asked to accept a DCO when they create the first pull request to this project. This happens in an automated fashion during the submission process. SAP uses [the standard DCO text of the Linux Foundation](https://developercertificate.org/).
+Support for the content in this repository is available during the actual time of the workshop event for which this content has been designed.
+
 
 ## License
-Copyright (c) 2024 SAP SE or an SAP affiliate company. All rights reserved. This project is licensed under the Apache Software License, version 2.0 except as noted otherwise in the [LICENSE](LICENSE) file.
+Copyright (c) 2025 SAP SE or an SAP affiliate company. All rights reserved. This project is licensed under the Apache Software License, version 2.0 except as noted otherwise in the [LICENSE](LICENSE) file.
+
