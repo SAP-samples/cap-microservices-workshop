@@ -41,7 +41,7 @@ Choosing the "Full Stack Cloud Application" brings in some predefined extensions
 
 #### Clone the repository
 
-👉 Once the Dev Space is started and you're in it, use the "Clone from Git" option in the "Get Started" screen that appears, to clone this repository. In the subsequent prompt enter https://github.com/DanSchlachter/recap25-microservices-workshop as the URL.
+👉 Once the Dev Space is started and you're in it, use the "Clone from Git" option in the "Get Started" screen that appears, to clone this repository. In the subsequent prompt enter https://github.com/sap-samples/cap-microservices-workshop as the URL.
 
 ![clone the repository](assets/clone-repo.png)
 
@@ -54,8 +54,8 @@ _Follow the "Primary environment" section above if you want to use a Dev Space i
 👉 At a command prompt on your local machine, clone this repository into a directory of your choice, and then open VS Code, pointing to that newly cloned repository's directory:
 
 ```sh
-git clone https://github.com/DanSchlachter/recap25-microservices-workshop
-code recap25-microservices-workshop
+git clone https://github.com/sap-samples/cap-microservices-workshop
+code cap-microservices-workshop
 ```
 
 #### Reopen in Container

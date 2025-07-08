@@ -100,7 +100,7 @@ cf deploy gen/mta.tar -f
 Deploying multi-target app archive gen/mta.tar in org capworkshop2c23600284a357ec94ee6 / space devspace030 as capworkshopuser+030@gmail.com...
 
 Uploading 1 files...
-  /workspaces/recap25-microservices-workshop/solution/gen/mta.tar
+  /workspaces/cap-microservices-workshop/solution/gen/mta.tar
  4s  14.63 MiB / 14.63 MiB [====================================================================================================================================] 100.00% 4s
 OK
 Operation ID: ba35814a-5bf1-11f0-ae69-eeee0a8ca141
