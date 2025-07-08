@@ -1,0 +1,25 @@
+{
+	"name": "CAP Development Container",
+	"image": "mcr.microsoft.com/devcontainers/base:debian",
+
+	"features": {
+		"ghcr.io/devcontainers/features/node:1": {},
+
+		"./cds-dk": {},
+		"./cf-deploy": {}
+	},
+
+	"customizations": {
+		"vscode": {
+			"extensions": [
+                "mechatroner.rainbow-csv",
+                "dbaeumer.vscode-eslint",
+				"SAPSE.vscode-cds",
+                "sapse.vsc-extension-odata-csdl-modeler",
+                "sapse.vscode-wing-cds-editor-vsc",
+                "saposs.xml-toolkit",
+				"humao.rest-client"
+			]
+		}
+	}
+}
