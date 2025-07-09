@@ -15,6 +15,7 @@ Title: Develop and Deploy CAP microservices with shared database
 
 Work through each of the following exercises one at a time, each of which cover one or more topics that are relevant for developing microservices (and are shown in brackets following the exercise titles). When reading through the exercises, actions for you to take, things you have to do yourself, are indicated with the 👉 symbol.
 
+0. [Setting up the working environment](exercises/00-setup/)
 1. [Setting up a solution monorepo](exercises/01-initialize-project/)
 2. [Add a second app](exercises/02-add-second-service/)
 3. [Add a `shared-db` module](exercises/03-shared-db/)

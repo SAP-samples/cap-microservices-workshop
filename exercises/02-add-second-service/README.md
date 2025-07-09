@@ -24,9 +24,9 @@ solution
 👉 Add a data model `feedback/db/schema.cds`
 
 ```cds
+using { cuid, User } from '@sap/cds/common';
 namespace solution.feedback;
 
-using { cuid, User } from '@sap/cds/common';
 
 entity Feedback : cuid {
     subject : String;
@@ -38,9 +38,13 @@ entity Feedback : cuid {
 }
 
 annotate Feedback with {
-    responsiveness @assert.range: [1, 5];
-    quality @assert.range: [1, 5];
-    helpfulness @assert.range: [1, 5];
+    responsiveness @assert.range: [0, 5] @title : '{i18n>Responsiveness}';
+    quality        @assert.range: [0, 5] @title : '{i18n>Quality}';
+    helpfulness    @assert.range: [0, 5] @title : '{i18n>Helpfulness}';
+};
+
+annotate Feedback with {
+    user @cds.on.insert : $user;
 };
 ```
 
@@ -78,12 +82,226 @@ extend feedback.Feedback with {
     incident : Association to incidents.Incidents on $self.subject = incident.ID;
 }
 
+extend incidents.Incidents with {
+    feedback : Association to many feedback.Feedback on feedback.incident = $self;
+    myFeedback : Association to feedback.Feedback on myFeedback.incident = $self and myFeedback.user = $user;
+}
+
+@requires: 'authenticated-user'
 service FeedbackService {
+    @(restrict: [
+        {grant: ['CREATE']},
+        {grant: ['READ', 'UPDATE', 'DELETE'], where: 'user = $user'}
+    ])
     entity Feedback as projection on feedback.Feedback;
-    entity Incidents as projection on incidents.Incidents;
+
+    @readonly
+    entity Incidents as projection on incidents.Incidents {
+        ID,
+        title,
+        myFeedback as feedback,
+        (myFeedback.quality + myFeedback.helpfulness + myFeedback.responsiveness) / 3 as rating : Integer,
+    };
 }
 ```
 
+
+Our users likely don't want to call the service api directly, but use a nice web application. For a first prototype we use a simple index.html containing our full SAP UI5 app. We vibe code a little to get a working version, but this still needs to be overhauled by our UI team.
+
+
+👉 Add a `feedback/app/give-feedback/index.html`
+
+<details>
+
+<summary>index.html content</summary>
+
+
+```html
+<!-- Warning: Do not refer to this file as an example to be used for UI5 application development.
+              Instead, refer to proper SAP UI5 example applications.
+-->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Feedback App</title>
+    <script id="sap-ui-bootstrap" src="https://sdk.openui5.org/resources/sap-ui-core.js" data-sap-ui-theme="sap_horizon"
+        data-sap-ui-libs="sap.m" data-sap-ui-async="true" data-sap-ui-compatVersion="edge"></script>
+
+    <script>
+        // Create reusable rating input bound to a field in Feedback entity
+        function createEditableRating(bindingPath) {
+            return new sap.m.VBox({
+                items: [
+                    new sap.m.Label({
+                        text: { path: `$meta>${bindingPath}@com.sap.vocabularies.Common.v1.Label` }
+                    }),
+                    new sap.m.RatingIndicator({
+                        value: { path: bindingPath },
+                        maxValue: 5,
+                        iconSize: "2rem",
+                        change: async function (oEvent) {
+                            const oSource = oEvent.getSource();
+                            const oBinding = oSource.getBinding("value");
+                            const sField = oBinding.getPath();
+                            const oContext = oBinding.getContext();
+
+                            if (!oContext || !oContext.getObject()) {
+                                // Feedback doesn't exist yet — create on demand
+
+                                // Revisit: use hash based navigation and take the incident id from the hash
+                                const oVBox = sap.ui.getCore().byId("detailsVBox");
+                                const oIncidentCtx = oVBox.data("incidentCtx");
+
+                                const oModel = oIncidentCtx.getModel();
+                                const oIncidentData = oIncidentCtx.getObject();
+
+                                try {
+                                    // 1. Create Feedback entity
+                                    const oNewCtx = await oModel.bindList("/Feedback").create({
+                                        subject: oIncidentData.ID,
+                                        [sField]: oEvent.getParameter("value")
+                                    }, {
+                                        groupId: "$auto"
+                                    });
+
+                                    // 2. Set new binding contexts
+                                    oVBox.setBindingContext(oNewCtx);
+                                    const oMetaModel = oModel.getMetaModel();
+                                    oVBox.setBindingContext(oMetaModel.getMetaContext(oNewCtx.getPath()), "$meta");
+
+                                    // 3. Submit the batch
+                                    await oModel.submitBatch("$auto");
+
+                                    // 4. Refresh the list view
+                                    const oList = sap.ui.getCore().byId("incidentList");
+                                    oList?.getBinding("items")?.refresh();
+
+                                    sap.m.MessageToast.show("Feedback created and saved");
+                                } catch (err) {
+                                    console.error("Failed to create Feedback:", err);
+                                    sap.m.MessageToast.show("Error saving feedback");
+                                }
+                            } else {
+                                // Feedback exists — just update
+                                const oModel = oContext.getModel();
+                                const sGroupId = oBinding.getUpdateGroupId?.() || "$auto";
+
+                                try {
+                                    await oModel.submitBatch(sGroupId);
+
+                                    const oList = sap.ui.getCore().byId("incidentList");
+                                    oList?.getBinding("items")?.refresh();
+
+                                    sap.m.MessageToast.show("Feedback saved");
+                                } catch (err) {
+                                    console.error("Failed to save feedback:", err);
+                                    sap.m.MessageToast.show("Error saving feedback");
+                                }
+                            }
+                        },
+                    })
+                ]
+            });
+        }
+
+        sap.ui.getCore().attachInit(function () {
+            const oModel = new sap.ui.model.odata.v4.ODataModel({
+                serviceUrl: "/odata/v4/feedback/"
+            });
+            sap.ui.getCore().setModel(oModel);
+
+            const oApp = new sap.m.App("myApp");
+
+            // Incident List Page
+            const oListPage = new sap.m.Page({
+                title: "Incident Feedback",
+                content: [
+                    new sap.m.List("incidentList", {
+                        headerText: "Incidents",
+                        mode: "SingleSelectMaster",
+                        itemPress: function (oEvent) {
+                            const oCtx = oEvent.getParameter("listItem").getBindingContext();
+                            const oModel = sap.ui.getCore().getModel();
+                            const feedbackPath = oCtx.getPath() + "/feedback";
+
+                            // Create OData V4 binding
+                            const oBinding = oModel.bindContext(feedbackPath);
+
+                            oBinding.requestObject().then(() => {
+                                const feedbackContext = oBinding.getBoundContext();
+                                const oVBox = sap.ui.getCore().byId("detailsVBox");
+                                const oMetaModel = oModel.getMetaModel();
+                                const oMetaCtx = oMetaModel.getMetaContext(feedbackContext.getPath());
+
+                                oVBox.setBindingContext(oMetaCtx, "$meta");     // meta context
+                                oVBox.setModel(oMetaModel, "$meta");            // meta model
+                                oVBox.setBindingContext(feedbackContext);       // data context
+                                oVBox.setModel(oModel);                         // default model
+
+                                oVBox.data("incidentCtx", oCtx); // store for later
+                                sap.ui.getCore().byId("myApp").to("detailsPage");
+                            }).catch((err) => {
+                                sap.m.MessageToast.show("Failed to load Feedback.");
+                                console.error("Feedback load error:", err);
+                            });
+                        },
+                        items: {
+                            path: "/Incidents",
+                            template: new sap.m.CustomListItem({
+                                type: "Active",
+                                content: new sap.m.HBox({
+                                    justifyContent: "SpaceBetween",
+                                    width: "100%",
+                                    items: [
+                                        new sap.m.Text({ text: "{title}" }),
+                                        new sap.m.RatingIndicator({
+                                            value: "{rating}",
+                                            maxValue: 5,
+                                            iconSize: "1.5rem",
+                                            enabled: false
+                                        })
+                                    ]
+                                })
+                            })
+                        }
+                    })
+                ]
+            });
+
+            // Feedback Details Page
+            const oDetailsVBox = new sap.m.VBox("detailsVBox", {
+                items: [
+                    new sap.m.Title({ text: "Edit Feedback" }).addStyleClass("sapUiSmallMarginBottom"),
+                    createEditableRating("helpfulness"),
+                    createEditableRating("responsiveness"),
+                    createEditableRating("quality")
+                ]
+            }).addStyleClass("sapUiSmallMargin");
+
+            const oDetailsPage = new sap.m.Page("detailsPage", {
+                title: "Feedback Details",
+                showNavButton: true,
+                navButtonPress: function () {
+                    oApp.back();
+                },
+                content: [oDetailsVBox]
+            });
+
+            oApp.addPage(oListPage).addPage(oDetailsPage).placeAt("content");
+        });
+    </script>
+</head>
+
+<body class="sapUiBody" id="content">
+    <div id="app"></div>
+</body>
+
+</html>
+```
+
+</details>
 
 
 👉 Add a `feedback/.cdsrc.json` with the server port
@@ -101,6 +319,15 @@ cds w feedback
 Navigating to http://localhost:4006, you see the index page listing our OData endpoints.
 
 Note: This also shows the ui app with `cds w` because it is included in the incidents dependency. But as we are not serving the processor service, it does not work. We'll see in the next part of this exercise why it makes sense to see the ui apps of dependencies in local development.
+
+
+👉 Go to http://localhost:4006/give-feedback/index.html, select one of the incidents and give some feedback
+
+![feedback app](assets/feedback-app.png)
+
+After you give feedback for all categories, you can reload the page to see the list again with an updated rating. We really need to give this to our UI experts for improvements...
+
+> Btw, you can give feedback for re>≡CAP through [this survey](https://url.sap/6rouc7).
 
 ## Run everything together locally
 
@@ -166,10 +393,39 @@ cds w
 ```
 
 Navigating to http://localhost:4004, we see the server index page listing the service endpoints for both incidents and feedback.
-We can also use the incidents ui via this combined application.
+We can also use the incidents and feedback uis via this combined application.
+The incidents ui already has the necessary registration, for feedback we still need to add it.
+
+👉 Add a `feedback/cds-plugin.js`
+
+```js
+const cds = require("@sap/cds")
+cds.once('bootstrap', (app) => {
+  app.serve('/give-feedback').from(__dirname,'/app/give-feedback')
+})
+```
+
+You now see both ui applications on the development index page.
+
+> The [cds plugin](https://cap.cloud.sap/docs/node.js/cds-plugins#add-a-cds-plugin-js) mechanism enables many interactions for packages that are meant to be imported into other modules.
+
+![incident and feedback app are shown](assets/local-apps.png)
+
+👉 Try out the application interactions
+
+Create a new incident in the incidents app:
+
+![create an incident](assets/create-incident.png)
 
 
-As it is running as a single application, but with multiple modules that can be developed independently, this is called a modulith (**modu**les + mono**lith**).
+When you navigate to the feedback app, the new incident is visible and you can give feedback.
+
+![give feedback to the new incident](assets/give-feedback-to-new-incident.png)
+
+---
+
+
+As the services are running as a single application, but with multiple modules that can be developed independently, this is called a modulith (**modu**les + mono**lith**).
 
 ![modulith](./assets/modulith.excalidraw.svg)
 
@@ -183,3 +439,7 @@ Since these exercises are about deploying multiple microservices with a shared d
 
 - [reuse packages](https://cap.cloud.sap/docs/guides/extensibility/composition#import)
 - [index.cds entry points](https://cap.cloud.sap/docs/guides/extensibility/composition#index-cds)
+
+---
+
+[Next Exercise](../03-shared-db/)

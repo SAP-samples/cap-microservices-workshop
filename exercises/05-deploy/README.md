@@ -166,3 +166,17 @@ You should now be redirected to the `incidents/webapp/index.html` page. Remember
 Since approuter acts as a proxy, we can also view the odata endpoints exposed by our applications. Visit the feedback odata endpoint by entering the path `/odata/v4/feedback/Feedback` after the domain.
 
 ![proxied odata endpoint](assets/proxied-endpoint.png)
+
+👉 Try out the application interactions
+
+Just like in exercise 02 when running both applications together on the local system, create an incident in the application at `/incidents/webapp/index.html`.
+
+The incident then also appears in the feedback application at `/give-feedback/index.html`.
+
+![give feedback to a new incident in the cloud](assets/give-feedback-deployed.png)
+
+---
+
+This was the final exercise.
+
+A [re>≡CAP 2025 survey](https://url.sap/6rouc7) is available for CAP developers - please take a moment to complete it if you can. Thank you! 

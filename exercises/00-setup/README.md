@@ -81,3 +81,7 @@ cds v
 ## Summary
 
 At this point you've got an environment in which to work through the rest of the exercises. You have Node.js, the CDS development kit, and Cloud Foundry tooling installed and ready to use.
+
+---
+
+[Next Exercise](../01-initialize-project/)

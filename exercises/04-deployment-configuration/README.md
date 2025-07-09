@@ -325,6 +325,7 @@ npm i @cap-js/hana --workspace feedback
 mkdir app/router/resources
 cd app/router/resources
 ln -s ../../../incidents/app/incidents incidents
+ln -s ../../../feedback/app/give-feedback give-feedback
 cd ../../..
 ```
 
@@ -381,7 +382,10 @@ For productive scenarios, ui apps can also be included via build steps or pushed
 }
 ```
 
+## Summary
 
-With all of these changes, the application is now ready for deployment. The payoff follows in the next exercise.
+You now have a fully configured app ready for deployment. The payoff is in the next exercise when we deploy it to Cloud Foundry.
 
+---
 
+[Next Exercise](../05-deploy/)
