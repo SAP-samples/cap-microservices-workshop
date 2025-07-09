@@ -6,7 +6,6 @@
 👉 Initialize a new CAP project
 ```sh
 cds init feedback
-npm i # forces npm to recognize the workspace
 ```
 
 The new project is located parallel to the incidents app. As the new folder is inside `solution`, it is also included as npm workspace due to our `"workspaces": ["*"]` configuration.
@@ -20,6 +19,12 @@ solution
 └── package.json
 ```
 
+👉 Install node modules
+```sh
+npm i
+```
+
+This installs dependencies for the new application and also ensures that the folder is recognized as a workspace in npm commands.
 
 👉 Add a data model `feedback/db/schema.cds`
 

@@ -9,7 +9,6 @@ Let's now also create a module for deploying the combined database artifacts to 
 
 ```sh
 cds init shared-db --add hana
-npm i # forces npm to recognize the workspace
 ```
 
 Again, this is located parallel to our other projects and registered as npm workspace due to our wildcard configuration.
@@ -26,6 +25,11 @@ solution
 ```
 
 You may also notice the `srv` folder that we created in the previous exercise. This is not considered as a workspace, because it does not have a `package.json`.
+
+👉 Install node modules
+```sh
+npm i
+```
 
 👉 Add our application modules as dependencies
 ```sh
