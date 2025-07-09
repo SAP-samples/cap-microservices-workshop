@@ -376,6 +376,10 @@ For productive scenarios, ui apps can also be included via build steps or pushed
 }
 ```
 
+## Summary
+
+You now have a fully configured app ready for deployment. The payoff is in the next exercise when we deploy it to Cloud Foundry.
+
 ---
 
 [Next Exercise](../05-deploy/)
