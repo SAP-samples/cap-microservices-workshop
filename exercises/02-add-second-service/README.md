@@ -23,9 +23,9 @@ solution
 👉 Add a data model `feedback/db/schema.cds`
 
 ```cds
+using { cuid, User } from '@sap/cds/common';
 namespace solution.feedback;
 
-using { cuid, User } from '@sap/cds/common';
 
 entity Feedback : cuid {
     subject : String;
@@ -37,9 +37,13 @@ entity Feedback : cuid {
 }
 
 annotate Feedback with {
-    responsiveness @assert.range: [1, 5];
-    quality @assert.range: [1, 5];
-    helpfulness @assert.range: [1, 5];
+    responsiveness @assert.range: [0, 5] @title : '{i18n>Responsiveness}';
+    quality        @assert.range: [0, 5] @title : '{i18n>Quality}';
+    helpfulness    @assert.range: [0, 5] @title : '{i18n>Helpfulness}';
+};
+
+annotate Feedback with {
+    user @cds.on.insert : $user;
 };
 ```
 
@@ -108,7 +112,7 @@ Our users likely don't want to call the service api directly, but use a nice web
 
 <details>
 
-<summary>`index.html` content</summary>
+<summary>index.html content</summary>
 
 
 ```html
@@ -400,11 +404,27 @@ cds.once('bootstrap', (app) => {
 })
 ```
 
+You now see both ui applications on the development index page.
+
+> The [cds plugin](https://cap.cloud.sap/docs/node.js/cds-plugins#add-a-cds-plugin-js) mechanism enables many interactions for packages that are meant to be imported into other modules.
+
+![incident and feedback app are shown](assets/local-apps.png)
+
 👉 Try out the application interactions
 
+Create a new incident in the incidents app:
+
+![create an incident](assets/create-incident.png)
 
 
-As it is running as a single application, but with multiple modules that can be developed independently, this is called a modulith (**modu**les + mono**lith**).
+When you navigate to the feedback app, the new incident is visible and you can give feedback.
+
+![give feedback to the new incident](assets/give-feedback-to-new-incident.png)
+
+---
+
+
+As the services are running as a single application, but with multiple modules that can be developed independently, this is called a modulith (**modu**les + mono**lith**).
 
 ![modulith](./assets/modulith.excalidraw.svg)
 
