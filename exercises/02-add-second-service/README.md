@@ -438,3 +438,7 @@ Since these exercises are about deploying multiple microservices with a shared d
 
 - [reuse packages](https://cap.cloud.sap/docs/guides/extensibility/composition#import)
 - [index.cds entry points](https://cap.cloud.sap/docs/guides/extensibility/composition#index-cds)
+
+---
+
+[Next Exercise](../03-shared-db/)

@@ -91,3 +91,7 @@ COLUMN TABLE solution_feedback_Feedback (
 ## Further reading
 
 - [Using a shared database](https://cap.cloud.sap/docs/guides/deployment/microservices#using-a-shared-database)
+
+---
+
+[Next Exercise](../04-deployment-configuration/)

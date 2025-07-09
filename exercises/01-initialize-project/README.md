@@ -102,3 +102,8 @@ Navigating to http://localhost:4004/incidents/webapp/index.html, you see the fam
 
 - [workspaces and monorepos](https://cap.cloud.sap/docs/guides/deployment/microservices#create-a-solution-monorepo)
 - [npm workspaces](https://docs.npmjs.com/cli/v11/using-npm/workspaces)
+
+
+---
+
+[Next Exercise](../02-add-second-service/)
