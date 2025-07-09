@@ -319,6 +319,7 @@ npm i @cap-js/hana --workspace feedback
 mkdir app/router/resources
 cd app/router/resources
 ln -s ../../../incidents/app/incidents incidents
+ln -s ../../../feedback/app/give-feedback give-feedback
 cd ../../..
 ```
 
