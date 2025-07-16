@@ -3,16 +3,7 @@
 
 👉 Log in to Cloud Foundry
 
-For [re>≡CAP 2025](https://recap-conf.dev/), you can use the prepared Cloud Foundry environment.
-
-```sh
-cf l -a https://api.cf.eu10-005.hana.ondemand.com --origin aoykcp1ee-platform
-```
-
-User: capworkshopuser+0xx@gmail.com (001 ... 040 is the range)  
-Password: *** (shared in Workshop)
-
-> If you work through this on your own, login via `cf login --sso` in a BTP trial account.
+Log in via `cf login --sso` in a BTP trial account.
 
 👉 Deploy the application
 ```sh
