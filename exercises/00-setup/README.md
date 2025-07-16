@@ -16,28 +16,13 @@ _Follow the "Alternative environment" subsection below if you want to use VS Cod
 
 #### Login to SAP Business Application Studio
 
-For [re>≡CAP 2025](https://recap-conf.dev/) we have prepared a BTP Subaccount you can use. If you work through this on your own, you can use a BTP trial account.
+This option is very much similar to the previous, in that it provides a VS Code based development environment and container. If you have a [trial account on the SAP Business Technology Platform], a [subscription to the SAP Business Application Studio], and the appropriate role collections assigned, then you can use this option.
 
-👉 Login to BAS:
-https://capworkshop-2c236002-84a3-57ec-94ee-67921d010585.eu10cf.applicationstudio.cloud.sap/
-
-Select `aoykcp1ee.accounts.ondemand.com` on the Login screen:
-![choose aoykcp1ee.accounts.ondemand.com as idp](assets/login-idp.png)
-
-User: capworkshopuser+0xx@gmail.com (001 ... 040 is the range)  
-Password: *** (shared in Workshop)
-
-![enter user and password](assets/login-user.png)
-
-> Incognito mode is your friend. In case you get logged in using your regular user, use incognito mode or clear your browser cookies.
-
-#### Create a BAS Dev Space
-
-![create the BAS dev space](assets/create-dev-space.png)
-
-Choosing the "Full Stack Cloud Application" brings in some predefined extensions, as you can see from the screenshot, including a CDS Graphical Modeler and the CAP Tools.
-
-> You may need to stop existing Dev Spaces to use this one, depending on your subscription access.
+- Go to the SAP Business Application Studio from your [SAP BTP trial landing page]
+- Choose to "Create Dev Space", giving it a name and selecting the "Full Stack Cloud Application" type:
+  ![creating a dev space](assets/bas-create-dev-space.png)
+- Once the dev space is started, enter it, use the "Clone from Git" option to clone this repo, and choose to open it when prompted:
+  ![cloning this repo from git](assets/bas-clone-from-git.png)
 
 #### Clone the repository
 
