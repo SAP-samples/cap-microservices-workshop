@@ -22,10 +22,6 @@ Work through each of the following exercises one at a time, each of which cover 
 4. [Deployment configurations](exercises/04-deployment-configuration/)
 5. [Deployment & Test](exercises/05-deploy/)
 
-## Survey
-
-This workshop is being presented during Code Connect week where there's [a re>≡CAP 2025 survey for CAP developers](https://url.sap/6rouc7) - please take a moment to complete it if you can. Thank you! 
-
 
 ## Further reading
 

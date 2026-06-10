@@ -332,8 +332,6 @@ Note: This also shows the ui app with `cds w` because it is included in the inci
 
 After you give feedback for all categories, you can reload the page to see the list again with an updated rating. We really need to give this to our UI experts for improvements...
 
-> Btw, you can give feedback for re>≡CAP through [this survey](https://url.sap/6rouc7).
-
 ## Run everything together locally
 
 We now construct an easy way to start our whole solution together.
