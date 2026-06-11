@@ -2,9 +2,7 @@
 
 [![REUSE status](https://api.reuse.software/badge/github.com/SAP-samples/cap-microservices-workshop)](https://api.reuse.software/info/github.com/SAP-samples/cap-microservices-workshop)
 
-The content of this repository is for use in a [re>≡CAP 2025](https://recap-conf.dev/) hands-on workshop:
-
-Title: Develop and Deploy CAP microservices with shared database
+Originally created for a [re>≡CAP 2025](https://recap-conf.dev/) hands-on workshop.
 
 ## Theory
 
