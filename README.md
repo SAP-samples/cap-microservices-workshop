@@ -2,9 +2,7 @@
 
 [![REUSE status](https://api.reuse.software/badge/github.com/SAP-samples/cap-microservices-workshop)](https://api.reuse.software/info/github.com/SAP-samples/cap-microservices-workshop)
 
-The content of this repository is for use in a [re>≡CAP 2025](https://recap-conf.dev/) hands-on workshop:
-
-Title: Develop and Deploy CAP microservices with shared database
+Originally created for a [re>≡CAP 2025](https://recap-conf.dev/) hands-on workshop.
 
 ## Theory
 
@@ -21,10 +19,6 @@ Work through each of the following exercises one at a time, each of which cover 
 3. [Add a `shared-db` module](exercises/03-shared-db/)
 4. [Deployment configurations](exercises/04-deployment-configuration/)
 5. [Deployment & Test](exercises/05-deploy/)
-
-## Survey
-
-This workshop is being presented during Code Connect week where there's [a re>≡CAP 2025 survey for CAP developers](https://url.sap/6rouc7) - please take a moment to complete it if you can. Thank you! 
 
 
 ## Further reading

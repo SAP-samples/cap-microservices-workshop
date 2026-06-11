@@ -146,9 +146,6 @@ Alternatively, you can also see the apps or services using `cf services` and `cf
 
 The url - or rather, the domain - is given as part of the output of the `cf apps` or `cf app solution` commands. It should look like this `<org>-<space>-solution.cfapps.eu10.hana.ondemand.com`. Copy this domain and paste it into your borwser.
 
-> When using the provided Cloud Foundry space during [re>≡CAP 2025](https://recap-conf.dev/), you may be prompted on how to sign in. Choose `aoykcp1ee.accounts.ondemand.com`.
-> ![login screen](assets/login.png)
-
 You should now be redirected to the `incidents/webapp/index.html` page. Remember that this is the `welcomeFile` we set inside the `xs-app.json` in the previous exercise.
 
 ![deployed incidents app](assets/deployed-app.png)
@@ -169,5 +166,3 @@ The incident then also appears in the feedback application at `/give-feedback/in
 ---
 
 This was the final exercise.
-
-A [re>≡CAP 2025 survey](https://url.sap/6rouc7) is available for CAP developers - please take a moment to complete it if you can. Thank you! 
