@@ -3,12 +3,9 @@
 👉 Add production features
 ```sh
 cds add mta,hana,xsuaa,approuter
-
-# Since we already have our shared-db project, we do not need the generated db folder
-rm -r db
 ```
 
-This generates a bunch of files, including an `xs-security.json` for the authentication and authorization configuration of the xsuaa instance, an `app/router` folder for serving the ui, and an `mta.yaml` as the deployment descriptor for the [multitarget application deployment](https://help.sap.com/docs/btp/sap-business-technology-platform/mta-deployment-descriptor-examples).
+This generates a bunch of files, including an `xs-security.json` for the authentication and authorization configuration of the xsuaa instance, a `.deploy/app-router` folder for serving the ui, and an `mta.yaml` as the deployment descriptor for the [multitarget application deployment](https://help.sap.com/docs/btp/sap-business-technology-platform/mta-deployment-descriptor-examples).
 
 Take a look at the `mta.yaml`.
 
@@ -33,7 +30,7 @@ modules:
 
   - name: solution             # Serving the UIs and acting as proxy for the backend
     type: approuter.nodejs
-    path: app/router
+    path: .deploy/app-router
     ...
 
 resources:
@@ -164,7 +161,7 @@ modules:
 # mta.yaml
   - name: solution
     type: approuter.nodejs
-    path: app/router
+    path: .deploy/app-router
     ...
     requires:
 -      - name: srv-api
@@ -258,7 +255,7 @@ modules:
 
   - name: solution
     type: approuter.nodejs
-    path: app/router
+    path: .deploy/app-router
     parameters:
       keep-existing-routes: true
       disk-quota: 256M
@@ -294,8 +291,16 @@ resources:
         xsappname: solution-${org}-${space}
         tenant-mode: dedicated
         oauth2-configuration:
+          credential-types:
+            - "binding-secret"
+            - "x509"
           redirect-uris:
             - https://*~{app-api/app-uri}/**
+        role-collections:
+          - name: 'admin (solution ${org}-${space})'
+            description: 'generated'
+            role-template-references:
+              - '$XSAPPNAME.admin'
     requires:
       - name: app-api
   - name: solution-db
@@ -322,8 +327,8 @@ npm i @cap-js/hana --workspace feedback
 
 👉 Include the incidents ui app in the approuter resources
 ```sh
-mkdir app/router/resources
-cd app/router/resources
+mkdir .deploy/app-router/resources
+cd .deploy/app-router/resources
 ln -s ../../../incidents/app/incidents incidents
 ln -s ../../../feedback/app/give-feedback give-feedback
 cd ../../..
@@ -345,7 +350,7 @@ solution
 
 For productive scenarios, ui apps can also be included via build steps or pushed to the html5-apps-repo.
 
-👉 Enter the destinations for each app as well as the static resources in the `app/router/xs-app.json`:
+👉 Enter the destinations for each app as well as the static resources in the `.deploy/app-router/xs-app.json`:
 
 ```json
 {

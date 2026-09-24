@@ -9,10 +9,10 @@
         "version": {
             "type": "string",
             "proposals": [
-                "^9",
-                "^8"
+                "^10",
+                "^9"
             ],
-            "default": "^9",
+            "default": "^10",
             "description": "Select the @sap/cds-dk version"
         }
     },
