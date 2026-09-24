@@ -8,7 +8,7 @@ Let's now also create a module for deploying the combined database artifacts to 
 👉 Add a `shared-db` module
 
 ```sh
-cds init shared-db --add hana
+cds init shared-db --nodejs --add hana
 ```
 
 Again, this is located parallel to our other projects and registered as npm workspace due to our wildcard configuration.

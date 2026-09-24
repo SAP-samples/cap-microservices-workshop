@@ -5,7 +5,7 @@
 
 👉 Initialize a new CAP project
 ```sh
-cds init feedback
+cds init feedback --nodejs
 ```
 
 The new project is located parallel to the incidents app. As the new folder is inside `solution`, it is also included as npm workspace due to our `"workspaces": ["*"]` configuration.
@@ -402,9 +402,9 @@ The incidents ui already has the necessary registration, for feedback we still n
 👉 Add a `feedback/cds-plugin.js`
 
 ```js
-const cds = require("@sap/cds")
+import cds from "@sap/cds"
 cds.once('bootstrap', (app) => {
-  app.serve('/give-feedback').from(__dirname,'/app/give-feedback')
+  app.serve('/give-feedback').from(new URL('/app/give-feedback', import.meta.url).pathname)
 })
 ```
 
